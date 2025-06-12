@@ -8,7 +8,8 @@ void print_menu() {
     printf("1. Vector Demo\n");
     printf("2. Map Demo\n");
     printf("3. Algorithm Demo\n");
-    printf("4. Run C Functions\n");
+    printf("4. Container Utilities Demo\n");
+    printf("5. Run C Functions\n");
     printf("0. Exit\n");
     printf("Enter your choice: ");
 }
@@ -35,6 +36,10 @@ int main() {
                 break;
                 
             case 4:
+                run_container_utils_demo();
+                break;
+                
+            case 5:
                 printf("\n=== C Functions ===\n");
                 printf("%d + %d = %d\n", a, b, add(a, b));
                 printf("%d - %d = %d\n", a, b, subtract(a, b));

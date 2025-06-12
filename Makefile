@@ -23,7 +23,7 @@ all: $(TARGET)
 
 # Main target with C++ linking
 $(TARGET): $(C_OBJS) $(CPP_OBJS)
-	$(CXX) $(CXXFLAGS) -o $@ $^ -lstdc++
+	$(CXX) $(CXXFLAGS) -o $@ $^
 
 # Compile .c files to .o files
 %.o: %.c

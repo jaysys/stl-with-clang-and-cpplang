@@ -196,7 +196,116 @@ g++ -Wall -Wextra -std=c++17 stl_usecase.cpp app.c utils.c -o app -lstdc++
 ./app
 ```
 
-## 7. 추가 학습 자료
+## 7. 컨테이너 유틸리티 데모
+
+### 7.1 Queue (큐)
+
+#### 사용 사례
+- **FIFO(선입선출)** 구조가 필요할 때
+- 작업 대기열, BFS 알고리즘 등에 사용
+
+#### 예제 코드
+```cpp
+queue<int> q;
+q.push(10);
+q.push(20);
+q.push(30);
+
+// 큐에서 요소 제거 및 출력
+while (!q.empty()) {
+    cout << q.front() << " ";  // 10 20 30
+    q.pop();
+}
+```
+
+### 7.2 Deque (덱)
+
+#### 사용 사례
+- 양쪽 끝에서의 삽입/삭제가 빈번할 때
+- 슬라이딩 윈도우 알고리즘 등에 사용
+
+#### 예제 코드
+```cpp
+deque<int> dq = {1, 2, 3};
+dq.push_front(0);    // 앞에 0 추가
+dq.push_back(4);     // 뒤에 4 추가
+
+// 덱의 모든 요소 출력
+for (int n : dq) {
+    cout << n << " ";  // 0 1 2 3 4
+}
+```
+
+### 7.3 Stack (스택)
+
+#### 사용 사례
+- **LIFO(후입선출)** 구조가 필요할 때
+- 함수 호출 스택, 괄호 검사, 계산기 구현 등에 사용
+
+#### 예제 코드
+```cpp
+stack<int> s;
+s.push(1);
+s.push(2);
+s.push(3);
+
+// 스택에서 요소 제거 및 출력
+while (!s.empty()) {
+    cout << s.top() << " ";  // 3 2 1
+    s.pop();
+}
+```
+
+### 7.4 수치 알고리즘
+
+#### 사용 사례
+- 수학적 연산이 필요한 경우
+- 컬렉션의 합계, 곱, 내적 등을 계산할 때
+
+#### 예제 코드
+```cpp
+vector<int> nums = {1, 2, 3, 4, 5};
+
+// 합계 계산
+int sum = accumulate(nums.begin(), nums.end(), 0);
+// sum = 15
+
+// 곱 계산
+int product = accumulate(nums.begin(), nums.end(), 1, multiplies<int>());
+// product = 120
+
+// 내적 계산
+vector<int> v1 = {1, 2, 3};
+vector<int> v2 = {4, 5, 6};
+int dot_product = inner_product(v1.begin(), v1.end(), v2.begin(), 0);
+// dot_product = 32
+```
+
+### 7.5 함수형 프로그래밍
+
+#### 사용 사례
+- 컬렉션에 대한 함수형 연산이 필요할 때
+- 조건부 필터링, 변환, 리듀스 등에 사용
+
+#### 예제 코드
+```cpp
+vector<int> numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+// 짝수만 필터링
+cout << "Even numbers: ";
+copy_if(numbers.begin(), numbers.end(), ostream_iterator<int>(cout, " "),
+       [](int n) { return n % 2 == 0; });
+// 출력: 2 4 6 8 10
+
+// for_each를 사용한 제곱 계산
+cout << "\nSquared numbers: ";
+for_each(numbers.begin(), numbers.end(), [](int& n) {
+    cout << n * n << " ";
+});
+// 출력: 1 4 9 16 25 36 49 64 81 100
+```
+
+## 8. 추가 학습 자료
 
 - [C++ Reference](https://en.cppreference.com/)
 - [C++ Standard Library Tutorial](https://www.cplusplus.com/reference/)
