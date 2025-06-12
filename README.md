@@ -201,66 +201,77 @@ g++ -Wall -Wextra -std=c++17 stl_usecase.cpp app.c utils.c -o app -lstdc++
 ### 7.1 Queue (큐)
 
 #### 사용 사례
-- **FIFO(선입선출)** 구조가 필요할 때
-- 작업 대기열, BFS 알고리즘 등에 사용
+- **FIFO(First-In-First-Out)** 구조가 필요할 때
+- **순서대로 처리**가 필요한 작업에 적합
+- BFS(Breadth-First Search) 알고리즘 구현 시
 
 #### 예제 코드
 ```cpp
 queue<int> q;
-q.push(10);
-q.push(20);
-q.push(30);
+q.push(10);  // 10 삽입
+q.push(20);  // 20 삽입
+q.push(30);  // 30 삽입
 
-// 큐에서 요소 제거 및 출력
+// 큐의 모든 요소 출력 (FIFO 순서)
 while (!q.empty()) {
-    cout << q.front() << " ";  // 10 20 30
-    q.pop();
+    cout << q.front() << " ";  // 맨 앞 요소 접근
+    q.pop();                    // 맨 앞 요소 제거
 }
+// 출력: 10 20 30
 ```
 
 ### 7.2 Deque (덱)
 
 #### 사용 사례
-- 양쪽 끝에서의 삽입/삭제가 빈번할 때
-- 슬라이딩 윈도우 알고리즘 등에 사용
+- **양쪽 끝**에서의 삽입/삭제가 빈번할 때
+- **슬라이딩 윈도우** 알고리즘 구현 시
+- **큐와 스택**이 모두 필요한 경우
 
 #### 예제 코드
 ```cpp
-deque<int> dq = {1, 2, 3};
-dq.push_front(0);    // 앞에 0 추가
-dq.push_back(4);     // 뒤에 4 추가
+deque<int> dq = {1, 2, 3, 4, 5};
+
+dq.push_front(0);  // 앞에 0 추가
+dq.push_back(6);   // 뒤에 6 추가
+
+dq.pop_front();    // 앞에서 제거
+dq.pop_back();     // 뒤에서 제거
 
 // 덱의 모든 요소 출력
 for (int n : dq) {
-    cout << n << " ";  // 0 1 2 3 4
+    cout << n << " ";
 }
+// 출력: 1 2 3 4 5
 ```
 
 ### 7.3 Stack (스택)
 
 #### 사용 사례
-- **LIFO(후입선출)** 구조가 필요할 때
-- 함수 호출 스택, 괄호 검사, 계산기 구현 등에 사용
+- **LIFO(Last-In-First-Out)** 구조가 필요할 때
+- **되돌리기(Undo)** 기능 구현 시
+- **괄호 짝 맞추기**와 같은 문제 해결 시
 
 #### 예제 코드
 ```cpp
 stack<int> s;
-s.push(1);
-s.push(2);
-s.push(3);
+s.push(1);  // 1 삽입
+s.push(2);  // 2 삽입
+s.push(3);  // 3 삽입
 
-// 스택에서 요소 제거 및 출력
+// 스택의 모든 요소 출력 (LIFO 순서)
 while (!s.empty()) {
-    cout << s.top() << " ";  // 3 2 1
-    s.pop();
+    cout << s.top() << " ";  // 맨 위 요소 접근
+    s.pop();                  // 맨 위 요소 제거
 }
+// 출력: 3 2 1
 ```
 
-### 7.4 수치 알고리즘
+### 7.4 Numeric Algorithms (수치 알고리즘)
 
 #### 사용 사례
-- 수학적 연산이 필요한 경우
-- 컬렉션의 합계, 곱, 내적 등을 계산할 때
+- **누적 합계** 계산 시
+- **내적(dot product)** 계산 시
+- **수학적 연산**이 필요한 경우
 
 #### 예제 코드
 ```cpp
@@ -268,41 +279,152 @@ vector<int> nums = {1, 2, 3, 4, 5};
 
 // 합계 계산
 int sum = accumulate(nums.begin(), nums.end(), 0);
-// sum = 15
-
-// 곱 계산
+// 곱 계산 (1*2*3*4*5)
 int product = accumulate(nums.begin(), nums.end(), 1, multiplies<int>());
-// product = 120
 
 // 내적 계산
-vector<int> v1 = {1, 2, 3};
-vector<int> v2 = {4, 5, 6};
-int dot_product = inner_product(v1.begin(), v1.end(), v2.begin(), 0);
-// dot_product = 32
+vector<int> a = {1, 2, 3};
+vector<int> b = {4, 5, 6};
+int dot_product = inner_product(a.begin(), a.end(), b.begin(), 0);
+
+cout << "Sum: " << sum << "\n";           // 출력: Sum: 15
+cout << "Product: " << product << "\n";    // 출력: Product: 120
+cout << "Dot product: " << dot_product;     // 출력: Dot product: 32
 ```
 
-### 7.5 함수형 프로그래밍
+### 7.5 Functional Programming (함수형 프로그래밍)
 
 #### 사용 사례
-- 컬렉션에 대한 함수형 연산이 필요할 때
-- 조건부 필터링, 변환, 리듀스 등에 사용
+- **조건에 맞는 요소**만 선택할 때
+- **변환 작업**이 필요할 때
+- **람다 표현식**을 활용한 유연한 연산이 필요할 때
 
 #### 예제 코드
 ```cpp
-vector<int> numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+vector<int> nums = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
-// 짝수만 필터링
-cout << "Even numbers: ";
-copy_if(numbers.begin(), numbers.end(), ostream_iterator<int>(cout, " "),
-       [](int n) { return n % 2 == 0; });
-// 출력: 2 4 6 8 10
+// 짝수만 선택
+vector<int> evens;
+copy_if(nums.begin(), nums.end(), back_inserter(evens),
+        [](int x) { return x % 2 == 0; });
 
-// for_each를 사용한 제곱 계산
-cout << "\nSquared numbers: ";
-for_each(numbers.begin(), numbers.end(), [](int& n) {
-    cout << n * n << " ";
-});
-// 출력: 1 4 9 16 25 36 49 64 81 100
+// 5보다 큰 수 선택
+vector<int> greater_than_five;
+copy_if(nums.begin(), nums.end(), back_inserter(greater_than_five),
+        [](int x) { return x > 5; });
+
+// for_each로 각 요소에 제곱 연산 적용
+vector<int> squares;
+for_each(nums.begin(), nums.end(), 
+         [&squares](int x) { squares.push_back(x * x); });
+```
+
+### 7.6 Set (집합)
+
+#### 사용 사례
+- **중복을 허용하지 않는** 컬렉션이 필요할 때
+- **정렬된** 요소 집합이 필요할 때
+- **집합 연산** (합집합, 교집합 등)이 필요할 때
+
+#### 예제 코드
+```cpp
+set<string> fruits = {"apple", "banana", "orange"};
+
+// 요소 추가 (중복은 자동 제거)
+auto [it, inserted] = fruits.insert("banana");
+if (!inserted) {
+    cout << "'banana'는 이미 존재합니다.\n";
+}
+
+// 요소 검색
+if (fruits.find("apple") != fruits.end()) {
+    cout << "사과를 찾았습니다!\n";
+}
+
+// 정렬된 순서로 출력 (자동 정렬됨)
+for (const auto& fruit : fruits) {
+    cout << fruit << " ";
+}
+// 출력: apple banana orange
+```
+
+### 7.7 Tuple (튜플)
+
+#### 사용 사례
+- **서로 다른 타입**의 데이터를 하나로 묶을 때
+- **함수에서 여러 값 반환**이 필요할 때
+- **구조체 대신 간단하게** 사용할 때
+
+#### 예제 코드
+```cpp
+// 튜플 생성
+auto student1 = make_tuple("Kim", 25, 3.8);
+tuple<string, int, double> student2("Lee", 23, 4.2);
+
+// 요소 접근 (인덱스 사용)
+cout << get<0>(student1) << "의 나이: " << get<1>(student1) << "\n";
+
+// 구조화된 바인딩 (C++17)
+auto [name, age, gpa] = student2;
+cout << name << "의 학점: " << gpa << "\n";
+
+// 참조를 사용한 튜플
+int score = 85;
+auto student3 = tie(name, age, score);
+score = 90;  // 튜플의 값도 함께 변경됨
+cout << "Updated score through tuple reference: " << get<2>(student3) << "\n";
+    
+cout << "Set and Tuple demo completed.\n";
+```
+
+### 7.8 Chrono (시간 라이브러리)
+
+#### 사용 사례
+- **실행 시간 측정**이 필요할 때
+- **시간 간격**을 다룰 때
+- **시스템 시간**을 다룰 때
+
+#### 예제 코드
+```cpp
+// 1. 시간 간격 (Duration)
+auto one_second = 1s;        // 1초
+auto half_second = 500ms;    // 500밀리초
+auto total = one_second + half_second;  // 1.5초
+
+// 2. 실행 시간 측정
+auto start = high_resolution_clock::now();
+// 작업 수행...
+int calc_sum = 0;
+for (int i = 0; i < 1000000; ++i) {
+    calc_sum += i;
+}
+auto end = high_resolution_clock::now();
+auto duration = duration_cast<microseconds>(end - start);
+cout << "작업 소요 시간: " << duration.count() << "마이크로초\n";
+
+// 3. 시스템 시간
+auto now = system_clock::now();
+time_t now_time = system_clock::to_time_t(now);
+cout << "현재 시간: " << ctime(&now_time);
+
+// 4. 에포크 이후 시간
+auto epoch = system_clock::time_point{};
+auto now_since_epoch = system_clock::now() - epoch;
+cout << "에포크 이후 초: " << duration_cast<seconds>(now_since_epoch).count() << "초\n";
+
+// 5. Steady Clock (측정용)
+auto steady_start = steady_clock::now();
+this_thread::sleep_for(100ms);
+auto steady_end = steady_clock::now();
+auto steady_duration = duration_cast<milliseconds>(steady_end - steady_start);
+cout << "수면 시간: " << steady_duration.count() << "ms\n";
+```
+
+## 8. 추가 학습 자료
+
+- [C++ Reference](https://en.cppreference.com/)
+- [C++ Standard Library Tutorial](https://www.cplusplus.com/reference/)
+- [STL 컨테이너 선택 가이드](https://en.cppreference.com/w/cpp/container)
 ```
 
 ## 8. 추가 학습 자료

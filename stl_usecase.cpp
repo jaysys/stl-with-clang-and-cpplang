@@ -19,6 +19,7 @@
 #include <memory>
 #include <chrono>
 #include <random>
+#include <thread>
 
 using namespace std;
 using namespace std::chrono;
@@ -440,6 +441,127 @@ void container_utils_demo() {
     cout << "After moving first 3 to end: ";
     for_each(data.begin(), data.end(), [](int n) { cout << n << " "; });
     cout << "\n";
+    
+    // 8. Set and Tuple Demo
+    cout << "\n8. Set and Tuple Demo:" << endl;
+    
+    // Set demo
+    cout << "\nSet Demo:" << endl;
+    set<string> fruits = {"apple", "banana", "orange", "mango"};
+    
+    // Insert elements
+    auto [it, inserted] = fruits.insert("banana"); // Duplicate - not inserted
+    cout << "Insert 'banana' again: " << (inserted ? "Inserted" : "Not inserted (duplicate)") << endl;
+    fruits.insert("grape");
+    
+    // Find elements
+    if (fruits.find("apple") != fruits.end()) {
+        cout << "Found 'apple' in the set" << endl;
+    }
+    
+    // Iterate through set (automatically sorted)
+    cout << "All fruits (sorted): ";
+    for (const auto& fruit : fruits) {
+        cout << fruit << " ";
+    }
+    cout << "\n";
+    
+    // Tuple demo
+    cout << "\nTuple Demo:" << endl;
+    // Creating tuples
+    tuple<string, int, double> student1("Kim", 25, 3.8);
+    auto student2 = make_tuple("Lee", 23, 4.2);
+    
+    // Accessing tuple elements
+    cout << "Student 1: " << get<0>(student1) << ", " 
+         << get<1>(student1) << " years old, GPA: " 
+         << get<2>(student1) << endl;
+    
+    // Structured binding with tuple (C++17)
+    auto [name, age, gpa] = student2;
+    cout << "Student 2: " << name << ", " << age << " years old, GPA: " << gpa << endl;
+    
+    // Tuple comparison
+    if (student1 > student2) {  // Lexicographical comparison
+        cout << "Student 1 is ordered after Student 2" << endl;
+    }
+    
+    // Tuple with references
+    int score = 85;
+    auto student3 = tie(name, age, score);  // Creates tuple of references
+    score = 90;  // Modifies the referenced variable
+    cout << "Updated score through tuple reference: " << get<2>(student3) << endl;
+    
+    cout << "Set and Tuple demo completed.\n";
+    
+    // 9. Chrono Demo
+    cout << "\n9. Chrono Time Library Demo:" << endl;
+    
+    // 9.1 Time durations
+    cout << "\n1. Time Durations:" << endl;
+    using namespace std::chrono_literals; // for h, min, s, ms, us, ns literals
+    
+    auto one_second = 1s;
+    auto half_second = 500ms;
+    auto total = one_second + half_second;
+    
+    cout << "1s + 500ms = " << total.count() << "ms\n";
+    cout << "In seconds: " << duration_cast<seconds>(total).count() << "s\n";
+    
+    // 9.2 Time points and measurement
+    cout << "\n2. Time Measurement:" << endl;
+    
+    auto start = high_resolution_clock::now();
+    
+    // Simulate some work
+    int calc_sum = 0;
+    for (int i = 0; i < 1000000; ++i) {
+        calc_sum += i;
+    }
+    // Use the calculated sum to avoid unused variable warning
+    if (calc_sum > 0) { /* just using the variable */ }
+    
+    auto end = high_resolution_clock::now();
+    auto duration = end - start;
+    
+    cout << "Calculation took " << duration.count() << " ticks\n";
+    cout << "Or " << duration_cast<microseconds>(duration).count() << " microseconds\n";
+    
+    // 9.3 System clock and time points
+    cout << "\n3. System Clock:" << endl;
+    
+    auto now = system_clock::now();
+    time_t now_time = system_clock::to_time_t(now);
+    cout << "Current time: " << ctime(&now_time);
+    
+    // Add 1 day to current time
+    auto tomorrow = now + 24h;
+    time_t tomorrow_time = system_clock::to_time_t(tomorrow);
+    cout << "This time tomorrow: " << ctime(&tomorrow_time);
+    
+    // 9.4 Time since epoch
+    cout << "\n4. Time Since Epoch:" << endl;
+    auto epoch = system_clock::time_point{};
+    auto now_since_epoch = system_clock::now() - epoch;
+    
+    cout << "Seconds since epoch: " 
+         << duration_cast<seconds>(now_since_epoch).count() << "s\n";
+    cout << "Hours since epoch: " 
+         << duration_cast<hours>(now_since_epoch).count() << "h\n";
+    
+    // 9.5 Steady clock (monotonic clock)
+    cout << "\n5. Steady Clock (for measurements):" << endl;
+    auto steady_start = steady_clock::now();
+    
+    // Do some work
+    this_thread::sleep_for(100ms);
+    
+    auto steady_end = steady_clock::now();
+    auto steady_duration = duration_cast<milliseconds>(steady_end - steady_start);
+    
+    cout << "Operation took " << steady_duration.count() << "ms (using steady_clock)\n";
+    
+    cout << "Chrono demo completed.\n";
     
     cout << "Container utilities demo completed.\n";
 }
